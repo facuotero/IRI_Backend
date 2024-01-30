@@ -11,7 +11,11 @@ const base = Airtable.base(AIRTABLE_BASE_ID);
 const {AIRTABLE_TABLE2_NAME } = process.env;
 
 const submitAnswersHandler = async (req, res) => {
-  const { name, hours, progress } = req.body;
+  const formData = req.body;
+  
+  const name = formData.studentProgress.name
+  const hours = formData.studentProgress.hours
+  const progress = formData.studentProgress.progress
 
   const data = {
     fields: {
@@ -23,6 +27,7 @@ const submitAnswersHandler = async (req, res) => {
 
   try {
     const records = await base(AIRTABLE_TABLE2_NAME).create([data]);
+    console.log(records);
     res.json(records);
   } catch (error) {
     console.error('Error inserting record into Airtable:', error);
